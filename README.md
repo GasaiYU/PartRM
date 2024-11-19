@@ -91,6 +91,7 @@ For the 2-stage training proposed in paper, you should first set the `stage1` in
 
 We will release gaussian database and pretrained checkpoints soon.
 
+## Evaluation
 For evaluation, you should first run
 ```bash
 CUDA_VISIBLE_DEVICES=0 accelerate launch --config_file acc_configs/gpu1.yaml eval.py big --workspace [your workspace]
