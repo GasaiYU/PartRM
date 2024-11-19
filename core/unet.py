@@ -403,6 +403,8 @@ class UNetWithMSDrag(nn.Module):
                     continue
                 self.conv_merges.append(nn.Conv2d(in_channels=drag_channels[i]*2, out_channels=drag_channels[i], kernel_size=3, stride=1, padding=1))
             self.conv_merges = nn.ModuleList(self.conv_merges)
+
+            self.alpha = nn.Parameter(torch.tensor(0.0), requires_grad=True)
             
     def forward(self, x, drags_start=None, drags_end=None):
         # x: [B, Cin, H, W]
@@ -420,12 +422,12 @@ class UNetWithMSDrag(nn.Module):
         for i, block in enumerate(self.down_blocks):            
             if self.use_drag_encoding and self.scale_layer_idx is None:
                 drags_embeddings = torch.cat([drags_start_embeddings_ms[i], drags_end_embeddings_ms[i]], dim=1)
-                x = self.conv_merges[i](torch.cat([x, drags_embeddings], dim=1))
+                x += self.alpha * self.conv_merges[i](torch.cat([x, drags_embeddings], dim=1))
             elif self.use_drag_encoding and i == self.scale_layer_idx:
                 assert len(drags_start_embeddings_ms) == 1
                 assert len(drags_end_embeddings_ms) == 1
                 drags_embeddings = torch.cat([drags_start_embeddings_ms[0], drags_end_embeddings_ms[0]], dim=1)
-                x = self.conv_merges[0](torch.cat([x, drags_embeddings], dim=1))
+                x += self.alpha * self.conv_merges[0](torch.cat([x, drags_embeddings], dim=1))
             x, xs = block(x)
             xss.extend(xs)
 

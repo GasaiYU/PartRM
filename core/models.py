@@ -11,9 +11,6 @@ from core.unet import UNet, UNetWithMSDrag
 from core.options import Options
 from core.gs import GaussianRenderer
 
-from core.unet_original import UNet as UNetOriginal
-
-
 
 class LGM(nn.Module):
     def __init__(
@@ -48,46 +45,7 @@ class LGM(nn.Module):
 
         # last conv
         self.conv = nn.Conv2d(14, 14, kernel_size=1) # NOTE: maybe remove it if train again
-
-
-        # Original Unet
-        if self.opt.add_with_original:
-            self.unet_original = UNetOriginal(
-                9, 14, 
-                down_channels=self.opt.down_channels,
-                down_attention=self.opt.down_attention,
-                mid_attention=self.opt.mid_attention,
-                up_channels=self.opt.up_channels,
-                up_attention=self.opt.up_attention,
-            )
-            self.conv_original = nn.Conv2d(14, 14, kernel_size=1)
-            ckpt = load_file(self.opt.original_ckpt, device='cpu')
-            unet_state_dict = self.unet_original.state_dict()
-            conv_state_dict = self.conv_original.state_dict()
-
-            for k, v in ckpt.items():
-                new_k = '.'.join(k.split('.')[1:])
-                if k.split('.')[0] == 'unet' and new_k in unet_state_dict:
-                    if unet_state_dict[new_k].shape == v.shape:
-                        unet_state_dict[new_k].copy_(v)
-                    else:
-                        print(f'[WARN] mismatching shape for param {k}: ckpt {v.shape} != model {unet_state_dict[k].shape}, ignored.')
-                elif k.split('.')[0] == 'conv' and new_k in conv_state_dict:
-                    if conv_state_dict[new_k].shape == v.shape:
-                        conv_state_dict[new_k].copy_(v)
-                    else:
-                        print(f'[WARN] mismatching shape for param {k}: ckpt {v.shape} != model {conv_state_dict[k].shape}, ignored.')
-                else:
-                    print(f'[WARN] unexpected param {k}: {v.shape}')
-
-            if self.opt.stage1:
-                for param in self.unet_original.parameters():
-                    param.requires_grad = False
-                for param in self.conv_original.parameters():
-                    param.requires_grad = False
-                self.unet_original.eval()
-                self.conv_original.eval()
-
+        
         # Gaussian Renderer
         self.gs = GaussianRenderer(opt)
 
@@ -149,33 +107,11 @@ class LGM(nn.Module):
         x = x.reshape(B, 4, 14, self.opt.splat_size, self.opt.splat_size)
         x = x.permute(0, 1, 3, 4, 2).reshape(B, -1, 14)
 
-        if self.opt.add_with_original:
-            if self.opt.stage1:
-                with torch.no_grad():
-                    y = self.unet_original(images)
-                    y = self.conv_original(y)
-                    y = y.reshape(B, 4, 14, self.opt.splat_size, self.opt.splat_size)
-                    y = y.permute(0, 1, 3, 4, 2).reshape(B, -1, 14)
-            else:
-                y = self.unet_original(images)
-                y = self.conv_original(y)
-                y = y.reshape(B, 4, 14, self.opt.splat_size, self.opt.splat_size)
-                y = y.permute(0, 1, 3, 4, 2).reshape(B, -1, 14) 
-
-        if not self.opt.add_with_original:
-            pos = self.pos_act(x[..., 0:3]) # [B, N, 3]
-            opacity = self.opacity_act(x[..., 3:4])
-            scale = self.scale_act(x[..., 4:7])
-            rotation = self.rot_act(x[..., 7:11])
-            rgbs = self.rgb_act(x[..., 11:])
-        else:
-            x = x + y
-            pos = self.pos_act(x[..., 0:3]) # [B, N, 3]
-            opacity = self.opacity_act(x[..., 3:4])
-            scale = self.scale_act(x[..., 4:7])
-            rotation = self.rot_act(x[..., 7:11])
-            rgbs = self.rgb_act(x[..., 11:])
-
+        pos = self.pos_act(x[..., 0:3]) # [B, N, 3]
+        opacity = self.opacity_act(x[..., 3:4])
+        scale = self.scale_act(x[..., 4:7])
+        rotation = self.rot_act(x[..., 7:11])
+        rgbs = self.rgb_act(x[..., 11:])
 
         gaussians = torch.cat([pos, opacity, scale, rotation, rgbs], dim=-1) # [B, N, 14]
         

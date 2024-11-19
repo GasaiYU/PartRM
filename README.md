@@ -87,6 +87,8 @@ You should specify the `train_filelist`, `val_filelist`, `zero123_val_filelist`,
 
 - For `zero123_val_filelist`, you can refer to `filelist/zero123_val_filelist.txt` and `filelist/zero123_val_filelist_objavser_hq.txt`.
 
+For the 2-stage training proposed in paper, you should first set the `stage1` in `core/options.py` and `core/options_pm.py` true. After the motion-learning traing, set the `stage1` False to conduct the apperance learning training.
+
 **We will release gaussian database and pretrained checkpoints soon.**
 
 For evaluation, you should first run
