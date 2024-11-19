@@ -87,7 +87,7 @@ You should specify the `train_filelist`, `val_filelist`, `zero123_val_filelist`,
 
 - For `zero123_val_filelist`, you can refer to `filelist/zero123_val_filelist.txt` and `filelist/zero123_val_filelist_objavser_hq.txt`.
 
-For gaussian database and pretrained checkpoints, we will release soon.
+**We will release gaussian database and pretrained checkpoints soon.**
 
 For evaluation, you should first run
 ```bash
@@ -103,4 +103,4 @@ python compute_metrices.py
 ```
 
 # Acknowledgement
-We build our 
+We build our work on LGM, Zero123++ and Gaussian Splatting.
