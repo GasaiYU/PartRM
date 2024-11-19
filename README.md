@@ -79,7 +79,10 @@ We provide training scripts for `PartDrag-4D` and `Objaverse-Animation-HQ` datas
 CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch --config_file acc_configs/gpu4.yaml train.py big --workspace [your workspace]
 ```
 
-You should specify the `train_filelist`, `val_filelist`, `zero123_val_filelist`, `propagated_drags_base` and `mesh_base` in `core/options.py` and `core/options_pm.py`. For `train_filelist`, you can refer to `filelist/train_filelist.txt` and `filelist/train_objavser_hq.txt`. For `val_filelist`, you can refer to `filelist/val_filelist.txt` and `filelist/eval_objaverse_hq.txt`. For `zero123_val_filelist`, you can refer to `filelist/zero123_val_filelist.txt` and `filelist/zero123_val_filelist_objavser_hq.txt`.
+You should specify the `train_filelist`, `val_filelist`, `zero123_val_filelist`, `propagated_drags_base` and `mesh_base` in `core/options.py` and `core/options_pm.py`. 
+For `train_filelist`, you can refer to `filelist/train_filelist.txt` and `filelist/train_objavser_hq.txt`. 
+For `val_filelist`, you can refer to `filelist/val_filelist.txt` and `filelist/eval_objaverse_hq.txt`. 
+For `zero123_val_filelist`, you can refer to `filelist/zero123_val_filelist.txt` and `filelist/zero123_val_filelist_objavser_hq.txt`.
 
 For gaussian database and pretrained checkpoints, we will release soon.
 
@@ -95,3 +98,6 @@ The specify the `VAL_FILELIST` in `compute_metrics.py` and run:
 ```
 python compute_metrices.py
 ```
+
+# Acknowledgement
+We build our 
