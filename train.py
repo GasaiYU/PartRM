@@ -180,8 +180,6 @@ def main(dataset_name):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', choices=['objavser_hq', 'partdrag4d'], help='The dataset name')
-    args = parser.parse_args()
+    dataset = 'partdrag4d'
 
-    main(args.dataset)
+    main(dataset)

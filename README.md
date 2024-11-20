@@ -51,7 +51,7 @@ You can modify `num_gpus` and `CUDA_VISIBLE_DEVICES` to adjust the degree of par
 For surface drags extraction:
 ```bash
 cd ..
-python z_buf_al.py
+python z_buffer_al.py
 ```
 
 The animated meshes and extracted surface drags are stored in `PartDrag4D/data/data/processed_data_partdrag4d`. The rendering results are stored in `PartDrag4D/data/render_PartDrag4D`

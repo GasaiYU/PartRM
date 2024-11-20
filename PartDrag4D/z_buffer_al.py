@@ -102,27 +102,27 @@ def project_points(points, cam_view):
     refine_z_buffer_index(z_buffer, z_buffer_index, points)
     return np.unique(z_buffer_index)
 
-def main(render_base):
-    for categorial in os.listdir(render_base):
-        if not os.path.isdir(os.path.join(render_base, categorial)):
+def main(mesh_base):
+    for categorial in os.listdir(mesh_base):
+        if not os.path.isdir(os.path.join(mesh_base, categorial)):
             continue
-        for mesh_id in tqdm(os.listdir(os.path.join(render_base, categorial))):
-            if not os.path.exists(os.path.join(render_base, categorial, mesh_id, "motion")):
+        for mesh_id in tqdm(os.listdir(os.path.join(mesh_base, categorial))):
+            if not os.path.exists(os.path.join(mesh_base, categorial, mesh_id, "motion")):
                 continue
-            for ply_file in os.listdir(os.path.join(render_base, categorial, mesh_id, "motion")):
+            for ply_file in os.listdir(os.path.join(mesh_base, categorial, mesh_id, "motion")):
                 if ply_file.endswith(".ply"):
-                    print(f"Process {os.path.join(render_base, categorial, mesh_id, 'motion', ply_file)}")
-                    pcd = o3d.io.read_point_cloud(os.path.join(render_base, categorial, mesh_id, "motion", ply_file))
+                    print(f"Process {os.path.join(mesh_base, categorial, mesh_id, 'motion', ply_file)}")
+                    pcd = o3d.io.read_point_cloud(os.path.join(mesh_base, categorial, mesh_id, "motion", ply_file))
                     z_buffer_index = project_points(np.array(pcd.points), view_matrix)
-                    np.save(os.path.join(render_base, categorial, mesh_id, "motion", ply_file.replace(".ply", "_visible.npy")), z_buffer_index)
+                    np.save(os.path.join(mesh_base, categorial, mesh_id, "motion", ply_file.replace(".ply", "_visible.npy")), z_buffer_index)
             
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--render_base', default='./data/processed_data_partdrag4d', help='The render images dir')
+    parser.add_argument('--mesh_base', default='./data/processed_data_partdrag4d', help='The render images dir')
     args = parser.parse_args()
 
-    main(args.render_base)
+    main(args.mesh_base)
                     
 
     
