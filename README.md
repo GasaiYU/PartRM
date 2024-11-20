@@ -102,7 +102,7 @@ gt_image_path,pred_image_path,source_image_path
 ```
 The specify the `VAL_FILELIST` (The path of generated eval filelist) in `compute_metrics.py` and run:
 ```
-python compute_metrices.py
+python compute_metrics.py
 ```
 
 # Acknowledgement
