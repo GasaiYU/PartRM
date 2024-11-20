@@ -153,7 +153,6 @@
 ./PartDrag4D/data/render_PartDrag4D/41510_1_4_00
 ./PartDrag4D/data/render_PartDrag4D/41510_1_5_01
 ./PartDrag4D/data/render_PartDrag4D/41510_1_5_00
-# Random
 ./PartDrag4D/data/render_PartDrag4D/49132_0_0_11
 ./PartDrag4D/data/render_PartDrag4D/49132_0_0_10
 ./PartDrag4D/data/render_PartDrag4D/49132_0_1_10
