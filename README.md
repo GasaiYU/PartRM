@@ -12,7 +12,7 @@ As interest grows in world models that predict future states from current observ
 ## Environment Setup
 Use `conda` to create a new virtual enviroment
 ```bash
-conda env create -f environment.yaml
+conda env create -f environment.yml
 conda activate partrm
 ```
 Also with gaussian splatting renderer
