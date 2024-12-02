@@ -52,7 +52,7 @@ def worker(
         print(item, gpu)
         command = (
             f" CUDA_VISIBLE_DEVICES={gpu} "
-            f" {blender_path}/blender -b -P scripts/blender_script.py --"
+            f" {blender_path}/blender -b -P blender_script.py --"
             f" --object_path {item} --output_dir {view_path_root} --num_images {num_images}"
         )
         print('command=======')
