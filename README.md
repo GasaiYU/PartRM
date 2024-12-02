@@ -3,6 +3,7 @@
 This repository is an official implementation for:
 
 **PartRM: Modeling Part-Level Dynamics with Large 4D Reconstruction Model**
+> Authors: Mingju Gao*, Yike Pan*, [Huan-ang Gao](https://c7w.tech/about/), Zongzheng Zhang, Wenyi Li, [Hao Dong](https://zsdonghao.github.io/), [Hao Tang](https://ha0tang.github.io/), [Li Yi](https://ericyi.github.io/), [Hao Zhao](https://sites.google.com/view/fromandto)
 
 ![Teaser](./images/teaser.png)
 
@@ -10,9 +11,9 @@ This repository is an official implementation for:
 As interest grows in world models that predict future states from current observations and actions, accurately modeling part-level dynamics has become increasingly relevant for various applications. Existing approaches, such as Puppet-Master, rely on fine-tuning large-scale pre-trained video diffusion models, which are impractical for real-world use due to the limitations of 2D video representation and slow processing times. To overcome these challenges, we present PartRM, a novel 4D reconstruction framework that simultaneously models appearance, geometry, and part-level motion from multi-view images of a static object. PartRM builds upon large 3D Gaussian reconstruction models, leveraging their extensive knowledge of appearance and geometry in static objects. To address data scarcity in 4D, we introduce the PartDrag-4D dataset, providing multi-view observations of part-level dynamics across over 20,000 states. We enhance the model’s understanding of interaction conditions with a multi-scale drag embedding module that captures dynamics at varying granularities. To prevent catastrophic forgetting during fine-tuning, we implement a two-stage training process that focuses sequentially on motion and appearance learning. Experimental results show that PartRM establishes a new state-of-the-art in part-level motion learning and can be applied in manipulation tasks in robotics. Our code, data, and models will be made publicly available to facilitate future research.
 
 ## Environment Setup
-Use `conda` to create a new virtual enviroment
+Use `conda` to create a new virtual enviroment. We use `torch==2.1.0+cu121`.
 ```bash
-conda env create -f environment.yml
+conda env create -f environment.yaml
 conda activate partrm
 ```
 Also with gaussian splatting renderer
@@ -23,19 +24,18 @@ pip install ./diff-gaussian-rasterization
 ```
 
 ## PartDrag-4D Dataset
-You need to first get PartNet-Mobility dataset and put it in the `PartDrag4D/data` dir of this repo.
+You need to first get [PartNet-Mobility](https://sapien.ucsd.edu/browse) dataset and put it in the `PartDrag4D/data` directory of this repo.
 Then
 ```bash
 cd PartDrag4D
 ```
-For mesh preprocess and mesh animating:
+For mesh preprocessing and animating:
 ```bash
 cd preprocess
 python process_data_textured_uv.py
 python animated_data.py
 ```
-For rendering
-First download blender:
+For rendering, first download blender:
 ```bash
 cd ../rendering/blender
 wget https://download.blender.org/release/Blender3.5/blender-3.5.0-linux-x64.tar.xz
@@ -46,7 +46,7 @@ Then
 cd ..
 bash render.sh
 ```
-You can modify `num_gpus` and `CUDA_VISIBLE_DEVICES` to adjust the degree of parallelism.
+You can modify `num_gpus` and `CUDA_VISIBLE_DEVICES` in the bash script to adjust the degree of parallelism.
 
 For surface drags extraction:
 ```bash
