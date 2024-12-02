@@ -35,15 +35,17 @@ cd preprocess
 python process_data_textured_uv.py
 python animated_data.py
 ```
-For rendering, first download blender:
+For rendering, first download blender and unzip it in the `../rendering/blender` directory:
 ```bash
 cd ../rendering/blender
 wget https://download.blender.org/release/Blender3.5/blender-3.5.0-linux-x64.tar.xz
+tar -xf blender-3.5.0-linux-x64.tar.xz
 ```
 
-Then
+Then generate the rendering filelist and render the generated meshes using [blender](https://download.blender.org/release/Blender3.5/blender-3.5.0-linux-x64.tar.xz):
 ```bash
 cd ..
+python gen_filelist.py
 bash render.sh
 ```
 You can modify `num_gpus` and `CUDA_VISIBLE_DEVICES` in the bash script to adjust the degree of parallelism.
@@ -54,7 +56,7 @@ cd ..
 python z_buffer_al.py
 ```
 
-The animated meshes and extracted surface drags are stored in `PartDrag4D/data/data/processed_data_partdrag4d`. The rendering results are stored in `PartDrag4D/data/render_PartDrag4D`
+The animated meshes and extracted surface drags are stored in `./PartDrag4D/data/data/processed_data_partdrag4d`. The rendering results are stored in `./PartDrag4D/data/render_PartDrag4D`.
 
 ## Images and Drags Preprocessing
 To generate multi-view images for **evaluation data**:
