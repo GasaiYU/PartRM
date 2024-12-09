@@ -206,14 +206,14 @@ def main(val_filelist, mesh_base, render_base, save_dir, sample_num=10):
         mask = sam_predict(predictor, sam_image, query_point)
 
         true_indices = np.argwhere(mask)
-        sampled_indices = true_indices[np.random.permutation(sampled_indices.shape[0])[:sample_num]]
+        sampled_indices = true_indices[np.random.permutation(true_indices.shape[0])[:sample_num]]
         render_id = image_path.split('/')[-2]
         os.makedirs(os.path.join(save_dir, render_id), exist_ok=True)
-        np.save(os.path.join(save_dir, render_id, 'propagated_indices.npy'))
+        np.save(os.path.join(save_dir, render_id, 'propagated_indices.npy'), sampled_indices)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--val_filelist', default='../filelist/val_filelist.txt', help='The path of the val filelist')
+    parser.add_argument('--val_filelist', default='../filelist/val_filelist_partdrag4d.txt', help='The path of the val filelist')
     parser.add_argument('--mesh_base', default='../PartDrag4D/data/processed_data_partdrag4d', help='The dir of the processed data which contains the mesh')
     parser.add_argument('--render_base', default='../PartDrag4D/data/render_PartDrag4D', help='The dir of the rendered images')
     parser.add_argument('--sample_num', default=10, help="The number of the sample points")

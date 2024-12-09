@@ -49,7 +49,7 @@ def main(dataset_name):
     train_dataset = TrainDataset(opt)
     train_dataloader = torch.utils.data.DataLoader(
         train_dataset,
-        batch_size=8,
+        batch_size=opt.batch_size,
         shuffle=True,
         num_workers=4,
         pin_memory=True,
@@ -181,5 +181,4 @@ def main(dataset_name):
 
 if __name__ == "__main__":
     dataset = 'partdrag4d'
-
     main(dataset)

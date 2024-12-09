@@ -422,12 +422,12 @@ class UNetWithMSDrag(nn.Module):
         for i, block in enumerate(self.down_blocks):            
             if self.use_drag_encoding and self.scale_layer_idx is None:
                 drags_embeddings = torch.cat([drags_start_embeddings_ms[i], drags_end_embeddings_ms[i]], dim=1)
-                x += self.alpha * self.conv_merges[i](torch.cat([x, drags_embeddings], dim=1))
+                x = self.conv_merges[i](torch.cat([x, drags_embeddings], dim=1))
             elif self.use_drag_encoding and i == self.scale_layer_idx:
                 assert len(drags_start_embeddings_ms) == 1
                 assert len(drags_end_embeddings_ms) == 1
                 drags_embeddings = torch.cat([drags_start_embeddings_ms[0], drags_end_embeddings_ms[0]], dim=1)
-                x += self.alpha * self.conv_merges[0](torch.cat([x, drags_embeddings], dim=1))
+                x = self.conv_merges[0](torch.cat([x, drags_embeddings], dim=1))
             x, xs = block(x)
             xss.extend(xs)
 

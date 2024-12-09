@@ -347,10 +347,3 @@ class ObjaverseHQDataset(Dataset):
         results['drags_end'] = drags_end
 
         return results
-
-if __name__ == "__main__":
-    opt = Options()
-    dataset = PuppetMasterDataset(opt)
-    
-    for data in dataset:
-        pass

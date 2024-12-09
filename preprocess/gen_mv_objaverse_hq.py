@@ -22,30 +22,35 @@ def main(src_filelist, save_dir):
     # Load the pipeline
     mv_diffusion = MVDiffusion({'pretrained_model_name_or_path':"sudo-ai/zero123plus-v1.2",
                             'custom_pipeline':"./zero123plus"})
-    state_dict = torch.load('./zero123_ckpt/objaverse_hq.ckpt')['state_dict']
+    state_dict = torch.load('./zero123_ckpt/objaverse_hq_zero123.ckpt')['state_dict']
 
     mv_diffusion.load_state_dict(state_dict, strict=True)
     pipeline = mv_diffusion.pipeline
     pipeline = pipeline.to('cuda')
 
     val_image_paths = []
+    frame_ids = []
     with open(src_filelist, 'r') as f:
         for line in f.readlines():
             line = line.strip()
+            frame_id = 0
             for image_path in os.listdir(line):
                 if image_path.endswith('.png') and image_path.startswith('000'):
                     val_image_paths.append(os.path.join(line, image_path))
+                    frame_ids.append(frame_id)
+                    frame_id += 1
 
     print(f"The length of the val images: {len(val_image_paths)}")
 
-    for val_image_path in val_image_paths:
+    for image_cnt, val_image_path in enumerate(val_image_paths):
+        frame_id = frame_ids[image_cnt]
         print(f'Render {val_image_path}')
         action_id = val_image_path.split('/')[-2]
         objaverse_id = val_image_path.split('/')[-3]
 
         cond = Image.open(val_image_path)
-        os.makedirs(os.path.join(save_dir, objaverse_id, action_id))
-        cond.save(os.path.join(save_dir, objaverse_id, action_id, '000.png'))
+        os.makedirs(os.path.join(save_dir, objaverse_id, action_id,str(frame_id)), exist_ok=True)
+        cond.save(os.path.join(save_dir, objaverse_id, action_id, str(frame_id), '000.png'))
 
         # Run the pipeline!
         with torch.no_grad():
@@ -60,13 +65,13 @@ def main(src_filelist, save_dir):
                 col_idx = i // 2
                 image = images[:, col_idx*320:col_idx*320+320, row_idx*320:row_idx*320+320]
                 image = resize(image)
-                save_image(image, os.path.join(save_dir, objaverse_id, action_id, f'{i+1:03d}.png'))
+                save_image(image, os.path.join(save_dir, objaverse_id, action_id, str(frame_id), f'{i+1:03d}.png'))
 
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--src_filelist', default='../filelist/eval_objavser_hq.txt')
-    parser.add_argument('--output_dir', default='./zero123_preprocessed_data/Objavser_HQ')
+    parser.add_argument('--src_filelist', default='../filelist/val_filelist_objaverse_hq.txt')
+    parser.add_argument('--output_dir', default='./zero123_preprocessed_data/Objaverse_HQ')
     args = parser.parse_args()
 
     main(args.src_filelist, args.output_dir)

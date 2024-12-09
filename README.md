@@ -35,7 +35,7 @@ cd preprocess
 python process_data_textured_uv.py
 python animated_data.py
 ```
-For rendering, first download blender and unzip it in the `../rendering/blender` directory:
+For rendering, first download [blender](https://download.blender.org/release/Blender3.5/blender-3.5.0-linux-x64.tar.xz) and unzip it in the `../rendering/blender` directory:
 ```bash
 cd ../rendering/blender
 wget https://download.blender.org/release/Blender3.5/blender-3.5.0-linux-x64.tar.xz
@@ -59,13 +59,21 @@ python z_buffer_al.py
 The animated meshes and extracted surface drags are stored in `./PartDrag4D/data/data/processed_data_partdrag4d`. The rendering results are stored in `./PartDrag4D/data/render_PartDrag4D`.
 
 ## Images and Drags Preprocessing
+You can get Zero123++ and SAM checkpoint from \todo. Then put them into `preprocess/zero123_ckpt` and `preprocess/sam_ckpt` respectively.
+
 To generate multi-view images for **evaluation data**:
 ```bash
 cd ../preprocess
 python gen_mv_partdrag4d.py --src_filelist /path/to/src/rendering/filelist --output_dir /path/to/save/dir # For PartDrag-4D
 python gen_mv_objaverse_hq.py --src_filelist /path/to/src/rendering/filelist --output_dir /path/to/save/dir # For Objaverse-Animation-HQ,
 ```
-The `src_filelist` is the path to the rendering filelist. You can refer to `filelist/eval_objaverse_hq.txt` and `filelist/val_filelist.txt` for example.
+The `src_filelist` is the path to the rendering filelist. You can refer to [this filelist](filelist/zero123_val_filelist_partdrag4d.txt) for PartDrag4D and [this filelist](filelist/zero123_val_filelist_objavser_hq.txt) for Objaverse-Animation-HQ for example.
+
+To generate RGBA format images for the input of **PartRM**:
+```bash
+python gen_rgba.py --filelist /path/to/zero123/filelist
+```
+You can refer to [this filelist](filelist/zero123_val_filelist_objavser_hq.txt) for PartDrag4D and [this filelist](filelist/zero123_val_filelist_partdrag4d.txt) for Objaverse-Animation-HQ for example.
 
 To generate propagated drags for **PartDrag-4D** dataset:
 ```bash
@@ -73,10 +81,8 @@ python gen_propagate_drags.py --val_filelist /path/to/src/rendering/filelist --s
 ```
 The `val_filelist` is the same as the `src_filelist` (multi-view images generation) for PartDrag-4D above.
 
-We will release the SAM and Zero123++ checkpoints soon.
-
 ## Training
-We provide training scripts for `PartDrag-4D` and `Objaverse-Animation-HQ` datasets. You can adjust the dataset for training in `line84` of the `train.py` (partdrag4d or objavser_hq). Then run:
+We provide training scripts for `PartDrag-4D` and `Objaverse-Animation-HQ` datasets. You can adjust the dataset for training in `line183` of the `train.py` (partdrag4d or objavser_hq). Then run:
 ```bash
 CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch --config_file acc_configs/gpu4.yaml train.py big --workspace [your workspace]
 ```
@@ -108,4 +114,4 @@ python compute_metrics.py
 ```
 
 # Acknowledgement
-We build our work on LGM, Zero123++ and Gaussian Splatting.
+We build our work on [LGM](https://arxiv.org/pdf/2402.05054), [Zero123++](https://arxiv.org/pdf/2310.15110) and [3D Gaussian Splattings](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/3d_gaussian_splatting_high.pdf).
