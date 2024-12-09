@@ -36,18 +36,25 @@ class PartDrag4DDatset(Dataset):
         filelist = self.opt.val_filelist
         zero123_filelist = self.opt.zero123_val_filelist
 
+        prev_mesh_id = 0
         with open(filelist, 'r') as f, open(zero123_filelist, 'r') as f1:
             zero123_lines = [line.strip() for line in f1.readlines()]
 
-            for i, file in enumerate(f.readlines(), start=1):
+            for i, file in enumerate(f.readlines(), start=0):
                 file = file.strip()
+                if file.startswith('#'):
+                    continue
                 # Get the state id
                 state = int(file.strip().split('/')[-1].split('_')[2])
-                # Randomly set the start id
-                random_start_idx = np.random.randint(0, 5)
+                cur_mesh_id = file.strip().split('/')[-1].split('_')[0]
+
+                if cur_mesh_id != prev_mesh_id:
+                    prev_mesh_id = cur_mesh_id
+                    random_start_idx = random.randint(0, 5)
 
                 if state != random_start_idx:
                     continue
+
                 for j in range(0, 6):
                     if state != j:
                         base, foldername = file.strip().rsplit('/', 1)
@@ -356,7 +363,8 @@ class PartDrag4DDatset(Dataset):
         results['drags_end'] = results['drags_end'].repeat(1, self.opt.num_drags, 1)
 
         # Propagated drags
-        propagated_drags_start = torch.from_numpy(np.load(os.path.join(self.opt.propagated_drags_base, render_id, 'propagated_indices.npy')))
+        propagated_drags_start = np.load(os.path.join(self.opt.propagated_drags_base, render_id, 'propagated_indices.npy'))
+        propagated_drags_start = torch.from_numpy(propagated_drags_start[:, [1, 0]]).float()
         for v in range(results['drags_start'].shape[0]):
             for n in range(results['drags_start'].shape[1]):
                 results['drags_start'][v, n] = propagated_drags_start[n]

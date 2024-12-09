@@ -39,6 +39,8 @@ class PartDrag4DDatset(Dataset):
         with open(filelist, 'r') as f:
             for i, file in enumerate(f.readlines(), start=1):
                 file = file.strip()
+                if file.startswith('#'):
+                    continue
                 # Get the state id
                 state = int(file.strip().split('/')[-1].split('_')[2])
                 for j in range(0, 6):

@@ -1,6 +1,3 @@
-import os
-import pytorch_msssim
-
 from pytorch_msssim import ssim
 import lpips
 import torch
@@ -9,7 +6,9 @@ import cv2
 
 from tqdm import tqdm
 
-VAL_FILELIST = '/path/to/your/val/filelist'
+import numpy as np
+
+VAL_FILELIST = '/path/yo/your/filelist'
 
 # src_images: N*3*256*256
 # tgt_images: N*3*256*256
@@ -49,7 +48,7 @@ def compute_psnr(src_images, tgt_images):
 
 def process_image(image_path):
     image = cv2.imread(image_path)
-    image = image[:, :2048, :]
+    image = image[:, :4096, :]
     image = cv2.resize(image, (2048, 256))
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = image / 255.0
@@ -85,9 +84,12 @@ if __name__ == '__main__':
                 psnr_val = compute_psnr(crop_src_image.unsqueeze(0), crop_tgt_image.unsqueeze(0))
                 ssim_val = compute_ssim(crop_src_image.unsqueeze(0), crop_tgt_image.unsqueeze(0))
                 lpips_loss_val = compute_lpips(crop_src_image.unsqueeze(0), crop_tgt_image.unsqueeze(0), lpips_loss)
+
                 if torch.isinf(psnr_val):
+                    count -= 1
                     print(f"psnr_val is inf, skip")
                     continue
+
                 total_psnr_loss += psnr_val
                 total_ssim_loss += ssim_val
                 total_lpips_loss += lpips_loss_val
