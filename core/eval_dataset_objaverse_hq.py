@@ -27,7 +27,7 @@ from core.options import AllConfigs
 IMAGENET_DEFAULT_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_DEFAULT_STD = (0.229, 0.224, 0.225)
 
-class ObjaverseHQDataset(Dataset):
+class ObjaverseHQEvalDataset(Dataset):
     def __init__(self, opt: Options):
         super().__init__()
 
@@ -69,7 +69,7 @@ class ObjaverseHQDataset(Dataset):
                     other_action_images = self.get_other_action_ids(action_dir, image, valid_image_list)
                     for deform_frame_id, other_action_image in enumerate(other_action_images):
                         self.image_paths.append(os.path.join(action_dir, image))
-                        self.zero123_items.append(zero123_lines[i])
+                        self.zero123_items.append(os.path.join(zero123_lines[i], '0'))
 
                         deform_image_path = os.path.join(action_dir, other_action_image)
                         self.deform_image_paths.append(deform_image_path)

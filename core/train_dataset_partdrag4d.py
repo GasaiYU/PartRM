@@ -25,7 +25,7 @@ from PIL import Image, ImageDraw
 IMAGENET_DEFAULT_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_DEFAULT_STD = (0.229, 0.224, 0.225)
 
-class PartDrag4DDatset(Dataset):
+class PartDrag4DTrainDatset(Dataset):
     def __init__(self, opt: Options):
         self.opt = opt  
 

@@ -78,7 +78,7 @@ class Options:
     use_drag_encoding: bool = True
     use_ms_drag_encoding: bool = True
     num_drags : int = 10
-    stage1: bool = True
+    stage1: bool = False
     
     # GS flow
     base_file_path: str = './gs_database/objaverse_hq'

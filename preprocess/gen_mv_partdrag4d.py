@@ -22,7 +22,7 @@ def main(src_filelist, save_dir):
     # Load the pipeline
     mv_diffusion = MVDiffusion({'pretrained_model_name_or_path':"sudo-ai/zero123plus-v1.2",
                             'custom_pipeline':"./zero123plus"})
-    state_dict = torch.load('/gpfs/essfs/iat/Tsinghua/gaomx/gaomx/workspace/blenderRender/lgm_arti/third_party/InstantMesh/logs/zero123plus-finetune-part/checkpoints/step=00005000.ckpt')['state_dict']
+    state_dict = torch.load('./zero123_ckpt/partdrag4d_zero123.ckpt')['state_dict']
 
     mv_diffusion.load_state_dict(state_dict, strict=True)
     pipeline = mv_diffusion.pipeline
@@ -62,7 +62,7 @@ def main(src_filelist, save_dir):
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--src_filelist', default='../filelist/test.txt')
+    parser.add_argument('--src_filelist', default='../filelist/val_filelist_partdrag4d.txt')
     parser.add_argument('--output_dir', default='./zero123_preprocessed_data/PartDrag4D')
     args = parser.parse_args()
 

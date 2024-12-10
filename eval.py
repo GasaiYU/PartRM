@@ -36,9 +36,9 @@ def main(dataset_name):
 
     # data
     if dataset_name == 'partdrag4d':
-        from core.eval_dataset_partdrag4d import PartDrag4DDatset as EvalDataset
-    elif dataset_name == 'objavser_hq':
-        from core.eval_dataset_objaverse_hq import ObjaverseHQDataset as EvalDataset
+        from core.eval_dataset_partdrag4d import PartDrag4DEvalDatset as EvalDataset
+    elif dataset_name == 'objaverse_hq':
+        from core.eval_dataset_objaverse_hq import ObjaverseHQEvalDataset as EvalDataset
 
     test_dataset = EvalDataset(opt)
     test_dataloader = torch.utils.data.DataLoader(
@@ -80,5 +80,5 @@ def main(dataset_name):
             torch.cuda.empty_cache()
 
 if __name__ == "__main__":
-    dataset = 'partdrag4d'
+    dataset = 'objaverse_hq'
     main(dataset)

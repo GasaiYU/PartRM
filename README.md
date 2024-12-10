@@ -58,6 +58,8 @@ python z_buffer_al.py
 
 The animated meshes and extracted surface drags are stored in `./PartDrag4D/data/data/processed_data_partdrag4d`. The rendering results are stored in `./PartDrag4D/data/render_PartDrag4D`.
 
+We split the PartDrag-4D dataset into training and evaluation sets. You can refer to `./filelist/train_filelist_partdrag4d.txt` and `./filelist/val_filelist_partdrag4d.txt` for details.
+
 ## Images and Drags Preprocessing
 You can get Zero123++ and SAM checkpoint from \todo. Then put them into `preprocess/zero123_ckpt` and `preprocess/sam_ckpt` respectively.
 
@@ -71,7 +73,7 @@ The `src_filelist` is the path to the rendering filelist. You can refer to [this
 
 To generate RGBA format images for the input of **PartRM**:
 ```bash
-python gen_rgba.py --filelist /path/to/zero123/filelist
+python gen_rgba.py --filelist /path/to/zero123/filelist --dataset [dataset_name]
 ```
 You can refer to [this filelist](filelist/zero123_val_filelist_objavser_hq.txt) for PartDrag4D and [this filelist](filelist/zero123_val_filelist_partdrag4d.txt) for Objaverse-Animation-HQ for example.
 
@@ -84,7 +86,7 @@ The `val_filelist` is the same as the `src_filelist` (multi-view images generati
 ## Training
 You can download the gaussian database from todo.
 
-We provide training scripts for `PartDrag-4D` and `Objaverse-Animation-HQ` datasets. You can adjust the dataset for training in `line183` of the `train.py` (partdrag4d or objavser_hq). Then run:
+We provide training scripts for `PartDrag-4D` and `Objaverse-Animation-HQ` datasets. You can adjust the dataset for training in the `train.py` and `eval.py` (partdrag4d or objaverse_hq). Then run:
 ```bash
 CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch --config_file acc_configs/gpu4.yaml train.py big --workspace [your workspace]
 ```
@@ -104,6 +106,8 @@ For evaluation, you should first run
 ```bash
 CUDA_VISIBLE_DEVICES=0 accelerate launch --config_file acc_configs/gpu1.yaml eval.py big --workspace [your workspace]
 ```
+Note you should set the `stage1` in `core/options.py` and `core/options_pm.py` **False**.
+
 Then you should generte your eval filelist with every line like
 ```
 gt_image_path,pred_image_path,source_image_path

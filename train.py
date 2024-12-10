@@ -40,11 +40,11 @@ def main(dataset_name):
     
     # data
     if dataset_name == 'partdrag4d':
-        from core.train_dataset_partdrag4d import PartDrag4DDatset as TrainDataset
-        from core.eval_dataset_partdrag4d import PartDrag4DDatset as EvalDataset
-    elif dataset_name == 'objavser_hq':
-        from core.train_dataset_objaverse_hq import ObjaverseHQDataset as TrainDataset
-        from core.eval_dataset_objaverse_hq import ObjaverseHQDataset as EvalDataset
+        from core.train_dataset_partdrag4d import PartDrag4DTrainDatset as TrainDataset
+        from core.eval_dataset_partdrag4d import PartDrag4DEvalDatset as EvalDataset
+    elif dataset_name == 'objaverse_hq':
+        from core.train_dataset_objaverse_hq import ObjaverseHQTrainDataset as TrainDataset
+        from core.eval_dataset_objaverse_hq import ObjaverseHQEvalDataset as EvalDataset
 
     train_dataset = TrainDataset(opt)
     train_dataloader = torch.utils.data.DataLoader(
@@ -180,5 +180,5 @@ def main(dataset_name):
 
 
 if __name__ == "__main__":
-    dataset = 'partdrag4d'
+    dataset = 'objaverse_hq'
     main(dataset)
