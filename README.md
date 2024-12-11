@@ -61,7 +61,7 @@ The animated meshes and extracted surface drags are stored in `./PartDrag4D/data
 We split the PartDrag-4D dataset into training and evaluation sets. You can refer to `./filelist/train_filelist_partdrag4d.txt` and `./filelist/val_filelist_partdrag4d.txt` for details.
 
 ## Images and Drags Preprocessing
-You can get Zero123++ and SAM checkpoint from \todo. Then put them into `preprocess/zero123_ckpt` and `preprocess/sam_ckpt` respectively.
+<!-- You can get Zero123++ and SAM checkpoint from [here](todo). Then put them into `preprocess/zero123_ckpt` and `preprocess/sam_ckpt` respectively. -->
 
 To generate multi-view images for **evaluation data**:
 ```bash
@@ -84,7 +84,9 @@ python gen_propagate_drags.py --val_filelist /path/to/src/rendering/filelist --s
 The `val_filelist` is the same as the `src_filelist` (multi-view images generation) for PartDrag-4D above.
 
 ## Training
-You can download the gaussian database from todo.
+<!-- You can download the gaussian database from [here](todo). -->
+
+<!-- We have released the pre-trained checkpoints for PartDrag-4D and Objaverse-Animation-HQ training. You can download the checkpoints from [here](todo). -->
 
 We provide training scripts for `PartDrag-4D` and `Objaverse-Animation-HQ` datasets. You can adjust the dataset for training in the `train.py` and `eval.py` (partdrag4d or objaverse_hq). Then run:
 ```bash
@@ -102,6 +104,8 @@ You should specify the `train_filelist`, `val_filelist`, `zero123_val_filelist`,
 For the 2-stage training proposed in paper, you should first set the `stage1` in `core/options.py` and `core/options_pm.py` **True**. After the motion-learning traing, set the `stage1` **False** to conduct the apperance learning training.
 
 ## Evaluation
+<!-- We have released the trained checkpoints for PartDrag-4D and Objaverse-Animation-HQ evaluation. You can download the checkpoints from [here](todo). -->
+
 For evaluation, you should first run
 ```bash
 CUDA_VISIBLE_DEVICES=0 accelerate launch --config_file acc_configs/gpu1.yaml eval.py big --workspace [your workspace]

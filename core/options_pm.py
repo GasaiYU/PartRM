@@ -81,7 +81,7 @@ class Options:
     stage1: bool = False
     
     # GS flow
-    base_file_path: str = './gs_database/objaverse_hq'
+    base_file_path: str = './gs_database/Objaverse_HQ'
     val_ratio: float = 0.1
     random_drag: bool = True
     lambda_flow: float = 1.0
