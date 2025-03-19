@@ -8,7 +8,8 @@ This repository is an official implementation for:
 ![Teaser](./images/teaser.png)
 
 ## Introduction
-As interest grows in world models that predict future states from current observations and actions, accurately modeling part-level dynamics has become increasingly relevant for various applications. Existing approaches, such as Puppet-Master, rely on fine-tuning large-scale pre-trained video diffusion models, which are impractical for real-world use due to the limitations of 2D video representation and slow processing times. To overcome these challenges, we present PartRM, a novel 4D reconstruction framework that simultaneously models appearance, geometry, and part-level motion from multi-view images of a static object. PartRM builds upon large 3D Gaussian reconstruction models, leveraging their extensive knowledge of appearance and geometry in static objects. To address data scarcity in 4D, we introduce the PartDrag-4D dataset, providing multi-view observations of part-level dynamics across over 20,000 states. We enhance the model’s understanding of interaction conditions with a multi-scale drag embedding module that captures dynamics at varying granularities. To prevent catastrophic forgetting during fine-tuning, we implement a two-stage training process that focuses sequentially on motion and appearance learning. Experimental results show that PartRM establishes a new state-of-the-art in part-level motion learning and can be applied in manipulation tasks in robotics. Our code, data, and models will be made publicly available to facilitate future research.
+As interest grows in world models that predict future states from current observations and actions, accurately modeling part-level dynamics has become increasingly relevant for various applications. Existing approaches, such as Puppet-Master, rely on fine-tuning large-scale pre-trained video diffusion models, which are impractical for real-world use due to the limitations of 2D video representation and slow processing times. To overcome these challenges, we present PartRM, a novel 4D reconstruction framework that simultaneously models appearance, geometry, and part-level motion from multi-view images of a static object. PartRM builds upon large 3D Gaussian reconstruction models, leveraging their extensive knowledge of appearance and geometry in static objects. To address data scarcity in 4D, we introduce the PartDrag-4D dataset, providing multi-view observations of part-level dynamics across over 20,000 states. We enhance the model’s understanding of interaction conditions with a multi-scale drag embedding module that captures dynamics at varying granularities. To prevent catastrophic forgetting during fine-tuning, we implement a two-stage training process that focuses sequentially on motion and appearance learning. Experimental results show that PartRM establishes a new state-of-the-art in part-level motion learning and can be applied in manipulation tasks in robotics.
+Project page: https://partrm.c7w.tech/
 
 ## Environment Setup
 Use `conda` to create a new virtual enviroment. We use `torch==2.1.0+cu121`.
@@ -24,6 +25,10 @@ pip install ./diff-gaussian-rasterization
 ```
 
 ## PartDrag-4D Dataset
+You can download PartDrag-4D dataset from [here](https://huggingface.co/GasaiYU/PartRM/tree/main). And unzip `pardrag_4d/partdrag_rendered.zip` to `PartDrag4D/data/render_PartDrag4D`, unzip `processed_data_partdrag4d.zip` to `./PartDrag4D/data/processed_data_partdrag4d`
+
+Below is how to render the PartDrag-4D dataset from scratch.
+
 You need to first get [PartNet-Mobility](https://sapien.ucsd.edu/browse) dataset and put it in the `PartDrag4D/data` directory of this repo.
 Then
 ```bash
@@ -56,7 +61,7 @@ cd ..
 python z_buffer_al.py
 ```
 
-The animated meshes and extracted surface drags are stored in `./PartDrag4D/data/data/processed_data_partdrag4d`. The rendering results are stored in `./PartDrag4D/data/render_PartDrag4D`.
+The animated meshes and extracted surface drags are stored in `./PartDrag4D/data/processed_data_partdrag4d`. The rendering results are stored in `./PartDrag4D/data/render_PartDrag4D`.
 
 We split the PartDrag-4D dataset into training and evaluation sets. You can refer to `./filelist/train_filelist_partdrag4d.txt` and `./filelist/val_filelist_partdrag4d.txt` for details.
 
