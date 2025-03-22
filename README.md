@@ -66,7 +66,7 @@ The animated meshes and extracted surface drags are stored in `./PartDrag4D/data
 We split the PartDrag-4D dataset into training and evaluation sets. You can refer to `./filelist/train_filelist_partdrag4d.txt` and `./filelist/val_filelist_partdrag4d.txt` for details.
 
 ## Images and Drags Preprocessing
-<!-- You can get Zero123++ and SAM checkpoint from [here](todo). Then put them into `preprocess/zero123_ckpt` and `preprocess/sam_ckpt` respectively. -->
+You can get Zero123++ and SAM checkpoint from [here](https://huggingface.co/GasaiYU/PartRM/tree/main/pretrained). Then put them into `preprocess/zero123_ckpt` and `preprocess/sam_ckpt` respectively.
 
 To generate multi-view images for **evaluation data**:
 ```bash
@@ -82,7 +82,7 @@ python gen_rgba.py --filelist /path/to/zero123/filelist --dataset [dataset_name]
 ```
 You can refer to [this filelist](filelist/zero123_val_filelist_objavser_hq.txt) for PartDrag4D and [this filelist](filelist/zero123_val_filelist_partdrag4d.txt) for Objaverse-Animation-HQ for example.
 
-To generate propagated drags for **PartDrag-4D** dataset:
+To generate propagated drags for **PartDrag-4D** dataset (You can download our preprocessed propagated drags from [here](https://huggingface.co/GasaiYU/PartRM/tree/main/propagated_drags)):
 ```bash
 python gen_propagate_drags.py --val_filelist /path/to/src/rendering/filelist --sample_num [The number of propagated drags] --save_dir /path/to/save/drags
 ```
