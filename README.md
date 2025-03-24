@@ -1,8 +1,8 @@
-# PartRM: Modeling Part-Level Dynamics with Large 4D Reconstruction Model
+# PartRM: Modeling Part-Level Dynamics with Large Cross-State Reconstruction Model [CVPR 2025]
 
 This repository is an official implementation for:
 
-**PartRM: Modeling Part-Level Dynamics with Large 4D Reconstruction Model**
+**PartRM: Modeling Part-Level Dynamics with Large Cross-State Reconstruction Model [CVPR 2025]**
 > Authors: Mingju Gao*, Yike Pan*, [Huan-ang Gao*](https://c7w.tech/about/), Zongzheng Zhang, Wenyi Li, [Hao Dong](https://zsdonghao.github.io/), [Hao Tang](https://ha0tang.github.io/), [Li Yi](https://ericyi.github.io/), [Hao Zhao](https://sites.google.com/view/fromandto)
 
 ![Teaser](./images/teaser.png)
